@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         body { padding-top: 0; }
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 800px; margin: 5rem auto; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 5rem auto; }
         .dashboard-card { background: #fff; padding: 2rem; text-align: center; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-decoration: none; color: var(--text-color); transition: all 0.3s ease; }
         .dashboard-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
         .dashboard-card h3 { margin-top: 0; }
@@ -19,31 +19,15 @@
             <button id="logout-button" class="cta-button" style="background-color: #ef4444;">Logout</button>
         </div>
         <div class="dashboard-grid">
-            <a href="manage-portfolio.html" class="dashboard-card">
-                <h3>Manage Portfolio</h3>
-                <p>Add, edit, or delete your work.</p>
-            </a>
-            <a href="view-messages.html" class="dashboard-card">
-                <h3>View Messages</h3>
-                <p>See all contact form submissions.</p>
-            </a>
+            <a href="manage-portfolio.html" class="dashboard-card"><h3>Manage Portfolio</h3><p>Add, edit, or delete your work.</p></a>
+            <a href="manage-testimonials.html" class="dashboard-card"><h3>Manage Testimonials</h3><p>Add, edit, or delete client quotes.</p></a>
+            <a href="view-messages.html" class="dashboard-card"><h3>View Messages</h3><p>See all contact form submissions.</p></a>
         </div>
     </div>
     
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    
-    <!-- Central Admin Firebase Config & Security Guard -->
     <script src="js/admin-firebase.js"></script>
-
-    <!-- Page-specific script -->
-    <script>
-        document.getElementById('logout-button').addEventListener('click', () => {
-            // The auth variable comes from the admin-firebase.js file
-            auth.signOut(); 
-            // The security guard in admin-firebase.js will automatically redirect to the login page.
-        });
-    </script>
+    <script> document.getElementById('logout-button').addEventListener('click', () => auth.signOut()); </script>
 </body>
 </html>
