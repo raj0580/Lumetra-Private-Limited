@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add/Edit Testimonial - Lumetra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { padding-top: 0; }
+        .dashboard-container { max-width: 800px; margin: 2rem auto; background: #fff; padding: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2 id="form-title">Add New Testimonial</h2>
+        <form id="item-form">
+            <div class="form-group"><label>Client Name</label><input type="text" id="name" required></div>
+            <div class="form-group"><label>Role / Company</label><input type="text" id="role" placeholder="e.g., CEO of InnoTech" required></div>
+            <div class="form-group"><label>Quote / Testimonial</label><textarea id="quote" rows="4" required></textarea></div>
+            <div class="form-group"><label>Client Photo</label><input type="file" id="image-upload"></div>
+            <img id="current-image" src="" width="100" style="display:none; margin-bottom:1rem; border-radius: 50%;">
+            <p id="upload-status" style="font-weight: 600;"></p>
+            <button type="submit" class="cta-button">Save Testimonial</button>
+            <a href="manage-testimonials.html" style="margin-left:1rem; text-decoration: none; color: #6b7280;">Cancel</a>
+        </form>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="js/admin-firebase.js"></script>
+    <script>
+        const imgbbApiKey = '5090ec8c335078581b53f917f9657083';
+
+        let currentItemId = null;
+        let currentImageUrl = null;
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            currentItemId = params.get('id');
+            if (currentItemId) {
+                document.getElementById('form-title').textContent = "Edit Testimonial";
+                db.collection("testimonials").doc(currentItemId).get().then(doc => {
+                    const item = doc.data();
+                    document.getElementById('name').value = item.name;
+                    document.getElementById('role').value = item.role;
+                    document.getElementById('quote').value = item.quote;
+                    if (item.photo) {
+                        currentImageUrl = item.photo;
+                        document.getElementById('current-image').src = currentImageUrl;
+                        document.getElementById('current-image').style.display = 'block';
+                    }
+                });
+            }
+        });
+        
+        document.getElementById('item-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const imageFile = document.getElementById('image-upload').files[0];
+            const statusP = document.getElementById('upload-status');
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+
+            if (imgbbApiKey === "YOUR_IMGBB_API_KEY") {
+                statusP.textContent = "Error: ImgBB API Key is not set.";
+                submitButton.disabled = false;
+                return;
+            }
+
+            if (imageFile) {
+                statusP.textContent = 'Uploading image...';
+                const formData = new FormData();
+                formData.append('image', imageFile);
+                fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        currentImageUrl = result.data.url;
+                        saveItemToFirestore();
+                    } else { throw new Error(result.error.message); }
+                })
+                .catch(error => { statusP.textContent = `Upload failed: ${error.message}`; submitButton.disabled = false; });
+            } else {
+                saveItemToFirestore();
+            }
+        });
+
+        function saveItemToFirestore() {
+            const itemData = {
+                name: document.getElementById('name').value,
+                role: document.getElementById('role').value,
+                quote: document.getElementById('quote').value,
+                photo: currentImageUrl
+            };
+            if (!itemData.photo && !currentItemId) { alert("Please select a photo for a new testimonial."); submitButton.disabled = false; return; }
+            const operation = currentItemId ? db.collection("testimonials").doc(currentItemId).update(itemData) : db.collection("testimonials").add(itemData);
+            operation.then(() => {
+                alert('Testimonial Saved!');
+                window.location.href = 'manage-testimonials.html';
+            });
+        }
+    </script>
+</body>
+</html>
