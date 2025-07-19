@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Full Stylesheet for Lumetra Agency
+   Full Stylesheet for Lumetra Agency (Version 3 - Icon Fix)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -71,7 +71,6 @@ section {
    -------------------------------------------------------------------------- */
 .hero {
     background-size: cover; background-position: center; position: relative; text-align: center; color: var(--white);
-    /* Reset padding because body now has it */
     padding-top: 8rem; padding-bottom: 8rem;
 }
 .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, rgba(29, 78, 216, 0.5), rgba(124, 58, 237, 0.4)); }
@@ -105,7 +104,7 @@ section {
 .testimonial-slide img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; object-fit: cover; }
 
 /* --------------------------------------------------------------------------
-   6. NEW: About Page Styles
+   6. About Page Styles
    -------------------------------------------------------------------------- */
 .about-us-page { background-color: var(--white); }
 .about-section-container { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
@@ -114,7 +113,7 @@ section {
 .about-image img { width: 100%; border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
 /* --------------------------------------------------------------------------
-   7. NEW: Team Section Styles (About Page)
+   7. Team Section Styles (About Page)
    -------------------------------------------------------------------------- */
 .team { text-align: center; background-color: var(--light-gray); }
 .team h2 { font-size: 2.5rem; margin-bottom: 3rem; }
@@ -125,11 +124,21 @@ section {
 .team-member h3 { font-size: 1.5rem; margin-bottom: 0.25rem; }
 .team-member .role { color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; }
 .team-member .social-links { display: flex; justify-content: center; gap: 1rem; }
-.team-member .social-links img { height: 24px; transition: transform 0.3s; }
+
+/*
+   THIS IS THE FIX!
+   We are explicitly setting both width and height to force the icon to be small.
+*/
+.team-member .social-links img {
+    height: 24px;
+    width: 24px; /* This forces the width to be correct */
+    transition: transform 0.3s;
+}
+
 .team-member .social-links a:hover img { transform: scale(1.2); }
 
 /* --------------------------------------------------------------------------
-   8. NEW: Contact Page Styles
+   8. Contact Page Styles
    -------------------------------------------------------------------------- */
 .contact-page { background-color: var(--white); }
 .contact-header { text-align: center; margin-bottom: 4rem; }
