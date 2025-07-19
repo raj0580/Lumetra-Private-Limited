@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Add/Edit Testimonial - Lumetra</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        body { padding-top: 0; }
-        .dashboard-container { max-width: 800px; margin: 2rem auto; background: #fff; padding: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; }
-    </style>
+    <style>/* Admin form styles */</style>
 </head>
 <body>
-    <div class="dashboard-container">
+    <div class="dashboard-container" style="max-width:800px; margin: 2rem auto;">
         <h2 id="form-title">Add New Testimonial</h2>
         <form id="item-form">
+            <!-- Form fields: name, role, quote, image-upload -->
             <div class="form-group"><label>Client Name</label><input type="text" id="name" required></div>
-            <div class="form-group"><label>Role / Company</label><input type="text" id="role" placeholder="e.g., CEO of InnoTech" required></div>
+            <div class="form-group"><label>Role / Company</label><input type="text" id="role" required></div>
             <div class="form-group"><label>Quote / Testimonial</label><textarea id="quote" rows="4" required></textarea></div>
             <div class="form-group"><label>Client Photo</label><input type="file" id="image-upload"></div>
             <img id="current-image" src="" width="100" style="display:none; margin-bottom:1rem; border-radius: 50%;">
             <p id="upload-status" style="font-weight: 600;"></p>
             <button type="submit" class="cta-button">Save Testimonial</button>
-            <a href="manage-testimonials.html" style="margin-left:1rem; text-decoration: none; color: #6b7280;">Cancel</a>
+            <a href="manage-testimonials.html" style="margin-left:1rem;">Cancel</a>
         </form>
     </div>
 
+    <!-- SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Central Config (provides db, auth, and imgbbApiKey) -->
     <script src="js/admin-firebase.js"></script>
-    <script>
-        const imgbbApiKey = '5090ec8c335078581b53f917f9657083';
 
+    <!-- Page-specific script -->
+    <script>
         let currentItemId = null;
         let currentImageUrl = null;
-        
+
         document.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search);
             currentItemId = params.get('id');
@@ -60,8 +60,9 @@
             const submitButton = e.target.querySelector('button[type="submit"]');
             submitButton.disabled = true;
 
+            // The imgbbApiKey variable now comes globally from admin-firebase.js
             if (imgbbApiKey === "YOUR_IMGBB_API_KEY") {
-                statusP.textContent = "Error: ImgBB API Key is not set.";
+                statusP.textContent = "Error: ImgBB API Key is not set in admin-firebase.js";
                 submitButton.disabled = false;
                 return;
             }
@@ -91,12 +92,13 @@
                 quote: document.getElementById('quote').value,
                 photo: currentImageUrl
             };
-            if (!itemData.photo && !currentItemId) { alert("Please select a photo for a new testimonial."); submitButton.disabled = false; return; }
+            if (!itemData.photo) {
+                alert("Please select a photo.");
+                document.querySelector('button[type="submit"]').disabled = false;
+                return;
+            }
             const operation = currentItemId ? db.collection("testimonials").doc(currentItemId).update(itemData) : db.collection("testimonials").add(itemData);
-            operation.then(() => {
-                alert('Testimonial Saved!');
-                window.location.href = 'manage-testimonials.html';
-            });
+            operation.then(() => { alert('Saved!'); window.location.href = 'manage-testimonials.html'; });
         }
     </script>
 </body>
