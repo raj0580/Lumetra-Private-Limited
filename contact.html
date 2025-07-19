@@ -9,22 +9,20 @@
 </head>
 <body>
 
-    <!-- FULL NAVBAR HTML -->
     <header class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <img src="icons/logo.png" alt="Lumetra Logo">
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+        <div class="container navbar-container">
+            <a href="index.html" class="logo"><img src="icons/logo.png" alt="Lumetra Logo"></a>
+            <nav class="nav-desktop">
+                <a href="index.html">Home</a><a href="portfolio.html">Our Work</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+            </nav>
+            <div class="hamburger-menu"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
         </div>
+        <nav class="nav-mobile">
+            <a href="index.html">Home</a><a href="portfolio.html">Our Work</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+        </nav>
     </header>
 
     <main>
-        <!-- Contact Section -->
         <section class="contact-page">
             <div class="container">
                 <div class="contact-header">
@@ -36,20 +34,18 @@
                         <h3>Contact Information</h3>
                         <p>Fill up the form and our team will get back to you within 24 hours.</p>
                         <ul>
-                            <li><img src="icons/phone.svg" alt="Phone Icon"><span>+1 (555) 123-4567</span></li>
-                            <li><img src="icons/email.svg" alt="Email Icon"><span>hello@lumetra.com</span></li>
-                            <li><img src="icons/location.svg" alt="Location Icon"><span>123 Digital Avenue, Tech City, USA</span></li>
+                            <li><img src="icons/phone.svg" alt="Phone"><span>+1 (555) 123-4567</span></li>
+                            <li><img src="icons/email.svg" alt="Email"><span>hello@lumetra.com</span></li>
+                            <li><img src="icons/location.svg" alt="Location"><span>123 Digital Avenue, Tech City, USA</span></li>
                         </ul>
-                        <div class="contact-map">
-                            <img src="img/map-placeholder.jpg" alt="Map showing agency location">
-                        </div>
+                        <div class="contact-map"><img src="img/map-placeholder.jpg" alt="Map"></div>
                     </div>
                     <div class="contact-form-container">
                         <form id="contact-form">
-                            <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" placeholder="Your Name" required></div>
-                            <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="Your Email" required></div>
-                            <div class="form-group"><label for="phone">Phone Number</label><input type="tel" id="phone" name="phone" placeholder="Your Phone Number (Optional)"></div>
-                            <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" placeholder="How can we help you?" rows="5" required></textarea></div>
+                            <div class="form-group"><label for="name">Name</label><input type="text" id="name" required></div>
+                            <div class="form-group"><label for="email">Email</label><input type="email" id="email" required></div>
+                            <div class="form-group"><label for="phone">Phone Number</label><input type="tel" id="phone"></div>
+                            <div class="form-group"><label for="message">Message</label><textarea id="message" rows="5" required></textarea></div>
                             <button type="submit" class="cta-button">Send Message</button>
                             <p id="form-status"></p>
                         </form>
@@ -59,7 +55,6 @@
         </section>
     </main>
 
-    <!-- FULL FOOTER HTML -->
     <footer>
         <div class="container">
             <p>© 2025 Lumetra. All Rights Reserved.</p>
@@ -71,7 +66,6 @@
         </div>
     </footer>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="js/main.js"></script>
