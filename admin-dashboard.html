@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Lumetra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 800px; margin: 5rem auto; }
+        .dashboard-card { background: #fff; padding: 2rem; text-align: center; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-decoration: none; color: var(--text-color); transition: all 0.3s ease; }
+        .dashboard-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .dashboard-card h3 { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding-top: 2rem;">
+            <h2>Lumetra Admin Panel</h2>
+            <button id="logout-button" class="cta-button" style="background-color: #ef4444;">Logout</button>
+        </div>
+        <div class="dashboard-grid">
+            <a href="manage-portfolio.html" class="dashboard-card">
+                <h3>Manage Portfolio</h3>
+                <p>Add, edit, or delete your work.</p>
+            </a>
+            <a href="view-messages.html" class="dashboard-card">
+                <h3>View Messages</h3>
+                <p>See all contact form submissions.</p>
+            </a>
+        </div>
+    </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = { /* PASTE YOUR CONFIG OBJECT HERE */ };
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) { window.location.href = 'admin.html'; }
+        });
+        document.getElementById('logout-button').addEventListener('click', () => {
+            firebase.auth().signOut().then(() => { window.location.href = 'admin.html'; });
+        });
+    </script>
+</body>
+</html>
