@@ -1,6 +1,10 @@
-/* --- NEW AND IMPROVED CSS - REPLACE THE OLD VERSIONS --- */
+/* ==========================================================================
+   Full Stylesheet for Lumetra Agency
+   ========================================================================== */
 
-/* Basic Styles */
+/* --------------------------------------------------------------------------
+   1. Basic and Root Styles
+   -------------------------------------------------------------------------- */
 :root {
     --primary-color: #3b82f6;
     --secondary-color: #1f2937;
@@ -22,7 +26,13 @@ body {
     padding: 0 20px;
 }
 
-/* 1. Navbar Improvements */
+h1, h2, h3 {
+    color: var(--secondary-color);
+}
+
+/* --------------------------------------------------------------------------
+   2. Improved Navbar
+   -------------------------------------------------------------------------- */
 .navbar {
     background-color: rgba(255, 255, 255, 0.9); /* Start with a semi-transparent background */
     backdrop-filter: blur(10px); /* Adds a modern frosted-glass effect */
@@ -42,13 +52,13 @@ body {
 }
 
 .logo img {
-    height: 35px; /* Slightly adjusted size */
+    height: 35px;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 1rem; /* Adjusted gap */
+    gap: 1rem;
     margin: 0;
     padding: 0;
 }
@@ -57,21 +67,23 @@ body {
     text-decoration: none;
     color: var(--text-color);
     font-weight: 600;
-    padding: 0.5rem 1rem; /* Add padding for a larger click area */
+    padding: 0.5rem 1rem;
     border-radius: 6px;
     transition: color 0.3s, background-color 0.3s;
 }
 
 .nav-links a:hover {
     color: var(--primary-color);
-    background-color: rgba(59, 130, 246, 0.1); /* Subtle background on hover */
+    background-color: rgba(59, 130, 246, 0.1);
 }
 
-/* 2. Hero Section Polish */
+/* --------------------------------------------------------------------------
+   3. Improved Hero Section
+   -------------------------------------------------------------------------- */
 .hero {
     background-size: cover;
     background-position: center;
-    padding-top: 15rem; /* Increased top padding to push content down below the fixed navbar */
+    padding-top: 15rem; /* Increased top padding for fixed navbar */
     padding-bottom: 10rem;
     position: relative;
     text-align: center;
@@ -85,18 +97,18 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Gradient overlay that matches the image's vibe */
     background: linear-gradient(45deg, rgba(29, 78, 216, 0.5), rgba(124, 58, 237, 0.4));
 }
 
 .hero .container {
-    position: relative; /* Keep this */
+    position: relative;
 }
 
 .hero h1 {
-    font-size: 3.5rem; /* Slightly larger text */
+    font-size: 3.5rem;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    color: var(--white);
 }
 
 .hero p {
@@ -108,8 +120,24 @@ body {
     text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
+.cta-button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: none;
+}
 
-/* 3. Service Card Improvements */
+.cta-button:hover {
+    background-color: #2563eb;
+}
+
+/* --------------------------------------------------------------------------
+   4. Improved Services Section
+   -------------------------------------------------------------------------- */
 .services {
     padding: 6rem 0;
     text-align: center;
@@ -131,12 +159,12 @@ body {
     padding: 2.5rem 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-10px); /* Lifts the card up on hover */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Stronger shadow on hover */
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .card-icon {
@@ -150,4 +178,193 @@ body {
     font-size: 1.25rem;
 }
 
-/* --- END OF NEW CSS --- */
+/* --------------------------------------------------------------------------
+   5. Portfolio Section
+   -------------------------------------------------------------------------- */
+.portfolio {
+    padding: 6rem 0;
+    background-color: var(--white);
+    text-align: center;
+}
+
+.portfolio h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.portfolio-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.portfolio-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* --------------------------------------------------------------------------
+   6. Testimonials Section
+   -------------------------------------------------------------------------- */
+.testimonials {
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.testimonials h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.testimonial-slider {
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.testimonial-slide {
+    display: none;
+}
+
+.testimonial-slide.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.testimonial-slide img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   7. About Us and Team Section
+   -------------------------------------------------------------------------- */
+.about-us, .team {
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.about-us h2, .team h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.about-us p {
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    line-height: 1.6;
+}
+
+.team-members {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. Contact Section
+   -------------------------------------------------------------------------- */
+.contact {
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.contact h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+#contact-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#contact-form input,
+#contact-form textarea {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+    outline: 2px solid var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* --------------------------------------------------------------------------
+   9. Footer
+   -------------------------------------------------------------------------- */
+footer {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 3rem 0;
+    text-align: center;
+}
+
+footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icons img {
+    height: 24px;
+    transition: transform 0.3s;
+}
+
+.social-icons a:hover img {
+    transform: scale(1.2);
+}
+
+/* --------------------------------------------------------------------------
+   10. Responsive Design
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* For a real site, you'd implement a JS-based hamburger menu here */
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+}
