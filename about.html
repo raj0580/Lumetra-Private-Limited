@@ -9,76 +9,47 @@
 </head>
 <body>
 
-    <!-- FULL NAVBAR HTML -->
     <header class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <img src="icons/logo.png" alt="Lumetra Logo">
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+        <div class="container navbar-container">
+            <a href="index.html" class="logo"><img src="icons/logo.png" alt="Lumetra Logo"></a>
+            <nav class="nav-desktop">
+                <a href="index.html">Home</a><a href="portfolio.html">Our Work</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+            </nav>
+            <div class="hamburger-menu"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
         </div>
+        <nav class="nav-mobile">
+            <a href="index.html">Home</a><a href="portfolio.html">Our Work</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+        </nav>
     </header>
 
     <main>
-        <!-- About Section -->
         <section class="about-us-page">
             <div class="container">
                 <div class="about-section-container">
                     <div class="about-text">
                         <h2>Our Mission is to Build Brands People Love.</h2>
                         <p>Welcome to Lumetra. We are a passionate team of designers, developers, and strategists dedicated to helping businesses thrive in the digital world. Our collaborative, results-driven approach ensures that we deliver solutions that are not only visually stunning but also highly effective.</p>
-                        <p>From startups to established enterprises, we partner with clients to craft unique digital experiences that captivate audiences and drive growth. We believe in the power of great ideas and the magic that happens when creativity meets technology.</p>
+                        <p>From startups to established enterprises, we partner with clients to craft unique digital experiences that captivate audiences and drive growth.</p>
                     </div>
                     <div class="about-image">
-                        <!-- Add a real image named "about-us-image.jpg" to your /public/img/ folder -->
-                        <img src="img/about-us-image.jpg" alt="Lumetra team collaborating in a modern office">
+                        <img src="img/about-us-image.jpg" alt="Lumetra team collaborating">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Team Section -->
         <section class="team">
             <div class="container">
                 <h2>Meet the Creative Minds</h2>
                 <div class="team-members">
-                    <div class="team-member">
-                        <img src="img/team-1.jpg" alt="Team Member Alex Johnson">
-                        <h3>Alex Johnson</h3>
-                        <p class="role">Creative Director</p>
-                        <div class="social-links">
-                             <a href="#"><img src="icons/twitter.svg" alt="Twitter"></a>
-                             <a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a>
-                        </div>
-                    </div>
-                    <div class="team-member">
-                        <img src="img/team-2.jpg" alt="Team Member Maria Garcia">
-                        <h3>Maria Garcia</h3>
-                        <p class="role">Lead Developer</p>
-                        <div class="social-links">
-                            <a href="#"><img src="icons/twitter.svg" alt="Twitter"></a>
-                             <a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a>
-                        </div>
-                    </div>
-                    <div class="team-member">
-                        <img src="img/team-3.jpg" alt="Team Member Sam Lee">
-                        <h3>Sam Lee</h3>
-                        <p class="role">Marketing Strategist</p>
-                        <div class="social-links">
-                             <a href="#"><img src="icons/twitter.svg" alt="Twitter"></a>
-                            <a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a>
-                        </div>
-                    </div>
+                    <div class="team-member"><img src="img/team-1.jpg" alt="Team Member"><h3>Alex Johnson</h3><p class="role">Creative Director</p><div class="social-links"><a href="#"><img src="icons/twitter-.svg" alt="Twitter"></a><a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a></div></div>
+                    <div class="team-member"><img src="img/team-2.jpg" alt="Team Member"><h3>Maria Garcia</h3><p class="role">Lead Developer</p><div class="social-links"><a href="#"><img src="icons/twitter-.svg" alt="Twitter"></a><a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a></a></div></div>
+                    <div class="team-member"><img src="img/team-3.jpg" alt="Team Member"><h3>Sam Lee</h3><p class="role">Marketing Strategist</p><div class="social-links"><a href="#"><img src="icons/twitter-.svg" alt="Twitter"></a><a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a></a></div></div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- FULL FOOTER HTML -->
     <footer>
         <div class="container">
             <p>© 2025 Lumetra. All Rights Reserved.</p>
@@ -89,7 +60,7 @@
             </div>
         </div>
     </footer>
-
+    
     <script src="js/main.js"></script>
 </body>
 </html>
