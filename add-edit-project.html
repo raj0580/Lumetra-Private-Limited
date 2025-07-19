@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add/Edit Project - Lumetra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>/* Same styles as view-messages.html */</style>
+</head>
+<body>
+    <div class="dashboard-container" style="max-width:800px; margin: 2rem auto;">
+        <h2 id="form-title">Add New Project</h2>
+        <form id="project-form">
+            <div class="form-group"><label>Title</label><input type="text" id="title" required></div>
+            <div class="form-group"><label>Category</label><input type="text" id="category" required></div>
+            <div class="form-group"><label>Description</label><textarea id="description" rows="5" required></textarea></div>
+            <div class="form-group"><label>Project Image</label><input type="file" id="image-upload"></div>
+            <img id="current-image" src="" width="200" style="display:none; margin-bottom:1rem;">
+            <p id="upload-progress" style="display:none;"></p>
+            <button type="submit" class="cta-button">Save Project</button>
+            <a href="manage-portfolio.html" style="margin-left:1rem;">Cancel</a>
+        </form>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDzzNaBj_TjvQMkqLW7_DC0L7M6uULgjs8",
+  authDomain: "lumetra-protfolio.firebaseapp.com",
+  databaseURL: "https://lumetra-protfolio-default-rtdb.firebaseio.com",
+  projectId: "lumetra-protfolio",
+  storageBucket: "lumetra-protfolio.firebasestorage.app",
+  messagingSenderId: "633062556570",
+  appId: "1:633062556570:web:d9cdc60726444ba7fd3023"
+};
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+        let currentProjectId = null;
+        let currentImageUrl = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            currentProjectId = params.get('id');
+
+            if (currentProjectId) {
+                document.getElementById('form-title').textContent = "Edit Project";
+                db.collection("portfolio").doc(currentProjectId).get().then(doc => {
+                    if (doc.exists) {
+                        const project = doc.data();
+                        document.getElementById('title').value = project.title;
+                        document.getElementById('category').value = project.category;
+                        document.getElementById('description').value = project.description;
+                        currentImageUrl = project.image;
+                        const imagePreview = document.getElementById('current-image');
+                        imagePreview.src = currentImageUrl;
+                        imagePreview.style.display = 'block';
+                    }
+                });
+            }
+        });
+
+        document.getElementById('project-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value;
+            const imageFile = document.getElementById('image-upload').files[0];
+            const progressP = document.getElementById('upload-progress');
+
+            if (imageFile) {
+                const storageRef = storage.ref(`portfolio/${Date.now()}_${imageFile.name}`);
+                const task = storageRef.put(imageFile);
+                task.on('state_changed',
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        progressP.textContent = `Upload is ${progress.toFixed(2)}% done`;
+                        progressP.style.display = 'block';
+                    },
+                    (error) => { console.error(error); },
+                    async () => {
+                        currentImageUrl = await task.snapshot.ref.getDownloadURL();
+                        saveProjectToFirestore({ title, category, description, image: currentImageUrl });
+                    }
+                );
+            } else {
+                saveProjectToFirestore({ title, category, description, image: currentImageUrl });
+            }
+        });
+
+        function saveProjectToFirestore(projectData) {
+            const operation = currentProjectId 
+                ? db.collection("portfolio").doc(currentProjectId).update(projectData)
+                : db.collection("portfolio").add(projectData);
+            
+            operation.then(() => {
+                alert('Project saved successfully!');
+                window.location.href = 'manage-portfolio.html';
+            }).catch(error => console.error("Error saving project: ", error));
+        }
+    </script>
+</body>
+</html>
