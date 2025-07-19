@@ -2,17 +2,17 @@
 const testimonials = [
     {
         name: "Jane Doe, CEO of InnoTech",
-        photo: "public/img/client-1.jpg",
+        photo: "img/client-1.jpg", // Corrected path
         text: "Lumetra's team is incredibly talented. They delivered a stunning website that exceeded our expectations."
     },
     {
         name: "John Smith, Founder of MarketBoost",
-        photo: "public/img/client-2.jpg",
+        photo: "img/client-2.jpg", // Corrected path
         text: "Working with Lumetra was a game-changer for our brand. Their marketing strategies are top-notch."
     },
     {
         name: "Emily White, Creative Head at Artisian",
-        photo: "public/img/client-3.jpg",
+        photo: "img/client-3.jpg", // Corrected path
         text: "The design work from Lumetra is simply outstanding. They have a keen eye for detail and aesthetics."
     }
 ];
@@ -38,12 +38,11 @@ if (testimonialSlider) {
     }
 
     showSlide(currentSlide);
-    setInterval(nextSlide, 5000); // Change slide every 5 seconds
+    setInterval(nextSlide, 5000);
 }
 
 
 // Firebase Configuration
-// IMPORTANT: Replace with your actual Firebase project configuration
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_AUTH_DOMAIN",
@@ -58,7 +57,6 @@ if (typeof firebase !== 'undefined') {
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Contact Form Submission
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
