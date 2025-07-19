@@ -1,13 +1,58 @@
-<section class="portfolio-gallery">
-  <h2>Our Work</h2>
-  <div class="portfolio-items">
-    <div class="portfolio-item">
-      <img src="public/img/portfolio1.jpg" alt="Web App Project"/>
-      <div class="portfolio-desc">
-        <h4>Innovative Web App</h4>
-        <p>UI/UX, front-end, & scalability.</p>
-      </div>
-    </div>
-    <!-- Repeat for more projects -->
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Work - Lumetra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo"><img src="icons/logo.png" alt="Lumetra Logo"></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="portfolio.html">Our Work</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section class="portfolio-page" style="background-color: var(--light-gray);">
+            <div class="container">
+                <div class="portfolio-header" style="text-align: center; margin-bottom: 3rem;">
+                    <h2>Our Portfolio</h2>
+                    <p style="font-size: 1.1rem; color: #6b7280;">A showcase of our passion, creativity, and commitment to results.</p>
+                </div>
+                <!-- This is the container where your JavaScript will load all projects -->
+                <div class="portfolio-gallery">
+                    <!-- Projects will be loaded here by main.js -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2025 Lumetra. All Rights Reserved.</p>
+            <div class="social-icons">
+                <a href="#"><img src="icons/facebook.svg" alt="Facebook"></a>
+                <a href="#"><img src="icons/twitter.svg" alt="Twitter"></a>
+                <a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs are needed to fetch the portfolio data -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Main JS file -->
+    <script src="js/main.js"></script>
+</body>
+</html>
