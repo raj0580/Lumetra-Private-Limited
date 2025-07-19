@@ -1,37 +1,6 @@
 /* ==========================================================================
-   Full JavaScript for Lumetra Agency
+   Full JavaScript for Lumetra Agency (Simplified and Fixed)
    ========================================================================== */
-
-// --------------------------------------------------------------------------
-// 0. Reusable Components (Navbar and Footer)
-// This loads the header and footer into the correct places on each page.
-// --------------------------------------------------------------------------
-const headerHTML = `
-    <div class="container">
-        <a href="index.html" class="logo">
-            <img src="icons/logo.png" alt="Lumetra Logo">
-        </a>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </div>
-`;
-document.querySelector('header.navbar').innerHTML = headerHTML;
-
-const footerHTML = `
-    <div class="container">
-        <p>© 2025 Lumetra. All Rights Reserved.</p>
-        <div class="social-icons">
-            <a href="#"><img src="icons/facebook.svg" alt="Facebook"></a>
-            <a href="#"><img src="icons/twitter.svg" alt="Twitter"></a>
-            <a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a>
-        </div>
-    </div>
-`;
-document.querySelector('footer').innerHTML = footerHTML;
-
 
 // --------------------------------------------------------------------------
 // 1. Navbar Scroll Effect
@@ -103,7 +72,7 @@ if (typeof firebase !== 'undefined') {
 
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value; // Get phone number
+            const phone = document.getElementById('phone').value;
             const message = document.getElementById('message').value;
             const formStatus = document.getElementById('form-status');
             const submitButton = contactForm.querySelector('button[type="submit"]');
@@ -114,7 +83,7 @@ if (typeof firebase !== 'undefined') {
             db.collection('contacts').add({
                 name: name,
                 email: email,
-                phone: phone, // Save phone number to Firestore
+                phone: phone,
                 message: message,
                 timestamp: new Date()
             })
@@ -134,4 +103,4 @@ if (typeof firebase !== 'undefined') {
             });
         });
     }
-}```
+}
