@@ -9,11 +9,22 @@
 </head>
 <body>
 
-    <!-- Header (Navbar) -->
-    <header class="navbar"></header>
+    <!-- FULL NAVBAR HTML -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="icons/logo.png" alt="Lumetra Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
 
     <main>
-        <!-- Contact Section with Two-Column Layout -->
+        <!-- Contact Section -->
         <section class="contact-page">
             <div class="container">
                 <div class="contact-header">
@@ -21,50 +32,24 @@
                     <p>We're here to help and answer any question you might have. We look forward to hearing from you.</p>
                 </div>
                 <div class="contact-container">
-                    <!-- Left Side: Contact Information -->
                     <div class="contact-info">
                         <h3>Contact Information</h3>
                         <p>Fill up the form and our team will get back to you within 24 hours.</p>
                         <ul>
-                            <li>
-                                <img src="icons/phone.svg" alt="Phone Icon">
-                                <span>+1 (555) 123-4567</span>
-                            </li>
-                            <li>
-                                <img src="icons/email.svg" alt="Email Icon">
-                                <span>hello@lumetra.com</span>
-                            </li>
-                            <li>
-                                <img src="icons/location.svg" alt="Location Icon">
-                                <span>123 Digital Avenue, Tech City, USA</span>
-                            </li>
+                            <li><img src="icons/phone.svg" alt="Phone Icon"><span>+1 (555) 123-4567</span></li>
+                            <li><img src="icons/email.svg" alt="Email Icon"><span>hello@lumetra.com</span></li>
+                            <li><img src="icons/location.svg" alt="Location Icon"><span>123 Digital Avenue, Tech City, USA</span></li>
                         </ul>
                         <div class="contact-map">
-                            <!-- You can embed a real Google Map here -->
                             <img src="img/map-placeholder.jpg" alt="Map showing agency location">
                         </div>
                     </div>
-
-                    <!-- Right Side: Contact Form -->
                     <div class="contact-form-container">
                         <form id="contact-form">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" placeholder="Your Email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <!-- NEW: Phone number input -->
-                                <input type="tel" id="phone" name="phone" placeholder="Your Phone Number (Optional)">
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Message</label>
-                                <textarea id="message" name="message" placeholder="How can we help you?" rows="5" required></textarea>
-                            </div>
+                            <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" placeholder="Your Name" required></div>
+                            <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="Your Email" required></div>
+                            <div class="form-group"><label for="phone">Phone Number</label><input type="tel" id="phone" name="phone" placeholder="Your Phone Number (Optional)"></div>
+                            <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" placeholder="How can we help you?" rows="5" required></textarea></div>
                             <button type="submit" class="cta-button">Send Message</button>
                             <p id="form-status"></p>
                         </form>
@@ -74,14 +59,21 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer></footer>
+    <!-- FULL FOOTER HTML -->
+    <footer>
+        <div class="container">
+            <p>© 2025 Lumetra. All Rights Reserved.</p>
+            <div class="social-icons">
+                <a href="#"><img src="icons/facebook.svg" alt="Facebook"></a>
+                <a href="#"><img src="icons/twitter.svg" alt="Twitter"></a>
+                <a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a>
+            </div>
+        </div>
+    </footer>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    
-    <!-- This script will load the reusable navbar/footer and handle the form -->
     <script src="js/main.js"></script>
 </body>
 </html>
