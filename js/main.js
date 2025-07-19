@@ -1,21 +1,22 @@
 /* ==========================================================================
-   Full JavaScript for Lumetra Agency (Dynamic Portfolio from Firestore)
+   Full JavaScript for Lumetra Agency (Dynamic Portfolio & Testimonials)
    ========================================================================== */
 
 // --------------------------------------------------------------------------
-// DYNAMIC PORTFOLIO - Fetches projects from Firestore Database
+// DYNAMIC CONTENT FUNCTIONS
 // --------------------------------------------------------------------------
+
 function generatePortfolioCards() {
     // This function needs Firebase, so it's called after Firebase is initialized.
     const db = firebase.firestore();
     const portfolioContainer = document.querySelector('.portfolio-gallery');
 
     if (portfolioContainer) {
-        portfolioContainer.innerHTML = '<p>Loading projects...</p>'; // Show a loading state
+        portfolioContainer.innerHTML = '<p style="text-align:center;">Loading our work...</p>';
 
         let query = db.collection("portfolio").orderBy("title");
 
-        // On the homepage, limit to 4 projects. On the portfolio page, show all.
+        // On the homepage, limit to 4 projects. On the full portfolio page, show all.
         if (!window.location.pathname.includes('portfolio.html')) {
             query = query.limit(4);
         }
@@ -23,7 +24,7 @@ function generatePortfolioCards() {
         query.get().then(snapshot => {
             portfolioContainer.innerHTML = ''; // Clear the loading state
             if (snapshot.empty) {
-                portfolioContainer.innerHTML = '<p>No projects to display at this time.</p>';
+                portfolioContainer.innerHTML = '<p style="text-align:center;">No projects to display at this time.</p>';
                 return;
             }
             snapshot.forEach(doc => {
@@ -42,15 +43,61 @@ function generatePortfolioCards() {
             });
         }).catch(error => {
             console.error("Error fetching portfolio projects: ", error);
-            portfolioContainer.innerHTML = '<p>Sorry, there was an error loading our work.</p>';
+            portfolioContainer.innerHTML = '<p style="text-align:center;">Sorry, there was an error loading our work.</p>';
+        });
+    }
+}
+
+function generateTestimonials() {
+    // This function fetches testimonials from the Firestore database.
+    const db = firebase.firestore();
+    const testimonialSlider = document.querySelector('.testimonial-slider');
+
+    if (testimonialSlider) {
+        testimonialSlider.innerHTML = '<p>Loading reviews...</p>';
+        db.collection("testimonials").get().then(snapshot => {
+            if (snapshot.empty) {
+                testimonialSlider.innerHTML = '<p>No client reviews yet.</p>';
+                return;
+            }
+            
+            const testimonialsData = [];
+            snapshot.forEach(doc => testimonialsData.push(doc.data()));
+
+            let currentSlide = 0;
+            function showSlide(index) {
+                const item = testimonialsData[index];
+                testimonialSlider.innerHTML = `
+                    <div class="testimonial-slide active">
+                        <img src="${item.photo}" alt="${item.name}">
+                        <p>"${item.quote}"</p>
+                        <h4>- ${item.name}, ${item.role}</h4>
+                    </div>
+                `;
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % testimonialsData.length;
+                showSlide(currentSlide);
+            }
+
+            // Start the slider if there are testimonials
+            if (testimonialsData.length > 0) {
+                showSlide(currentSlide);
+                setInterval(nextSlide, 5000);
+            }
+        }).catch(error => {
+            console.error("Error fetching testimonials: ", error);
+            testimonialSlider.innerHTML = '<p>Could not load client reviews.</p>';
         });
     }
 }
 
 
 // --------------------------------------------------------------------------
-// Navbar Scroll Effect
+// STATIC FUNCTIONS & INITIALIZATION
 // --------------------------------------------------------------------------
+
 document.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     if (navbar) {
@@ -62,45 +109,6 @@ document.addEventListener('scroll', () => {
     }
 });
 
-
-// --------------------------------------------------------------------------
-// Testimonial Slider
-// --------------------------------------------------------------------------
-const testimonials = [
-    { name: "Jane Doe, CEO of InnoTech", photo: "img/client-1.jpg", text: "Lumetra's team is incredibly talented. They delivered a stunning website that exceeded our expectations." },
-    { name: "John Smith, Founder of MarketBoost", photo: "img/client-2.jpg", text: "Working with Lumetra was a game-changer for our brand. Their marketing strategies are top-notch." },
-    { name: "Emily White, Creative Head at Artisian", photo: "img/client-3.jpg", text: "The design work from Lumetra is simply outstanding. They have a keen eye for detail and aesthetics." }
-];
-
-const testimonialSlider = document.querySelector('.testimonial-slider');
-if (testimonialSlider) {
-    let currentSlide = 0;
-
-    function showSlide(index) {
-        if (testimonials.length > 0 && testimonials[index]) {
-            testimonialSlider.innerHTML = `
-                <div class="testimonial-slide active">
-                    <img src="${testimonials[index].photo}" alt="${testimonials[index].name}">
-                    <p>"${testimonials[index].text}"</p>
-                    <h4>- ${testimonials[index].name}</h4>
-                </div>
-            `;
-        }
-    }
-
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % testimonials.length;
-        showSlide(currentSlide);
-    }
-
-    showSlide(currentSlide);
-    setInterval(nextSlide, 5000);
-}
-
-
-// --------------------------------------------------------------------------
-// Firebase Configuration & Initialization
-// --------------------------------------------------------------------------
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDzzNaBj_TjvQMkqLW7_DC0L7M6uULgjs8",
@@ -111,15 +119,14 @@ const firebaseConfig = {
   messagingSenderId: "633062556570",
   appId: "1:633062556570:web:d9cdc60726444ba7fd3023"
 };
-
 // Initialize Firebase only if the library is loaded
 if (typeof firebase !== 'undefined') {
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Call the dynamic portfolio generator now that Firebase is initialized
+    
+    // Run the functions to populate the page once the document is ready
     document.addEventListener('DOMContentLoaded', () => {
         generatePortfolioCards();
+        generateTestimonials();
     });
 
     // Handle the Contact Form
@@ -127,23 +134,18 @@ if (typeof firebase !== 'undefined') {
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-
-            const message = document.getElementById('message').value;
-            const formStatus = document.getElementById('form-status');
             const submitButton = contactForm.querySelector('button[type="submit"]');
+            const formStatus = document.getElementById('form-status');
 
             submitButton.disabled = true;
             submitButton.textContent = 'Sending...';
-
+            
+            const db = firebase.firestore();
             db.collection('contacts').add({
-                name: name,
-                email: email,
-                phone: phone,
-                message: message,
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                message: document.getElementById('message').value,
                 timestamp: new Date()
             })
             .then(() => {
@@ -151,10 +153,10 @@ if (typeof firebase !== 'undefined') {
                 formStatus.style.color = "green";
                 contactForm.reset();
             })
-            .catch((error) => {
+            .catch(error => {
                 formStatus.textContent = "Error sending message. Please try again.";
                 formStatus.style.color = "red";
-                console.error("Error adding document: ", error);
+                console.error("Error sending contact form: ", error);
             })
             .finally(() => {
                 submitButton.disabled = false;
