@@ -3,41 +3,40 @@
 <head>
     <title>Add/Edit Project - Lumetra</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>/* Same styles as view-messages.html */</style>
+    <style>
+        body { padding-top: 0; }
+        .dashboard-container { max-width: 800px; margin: 2rem auto; background: #fff; padding: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+    </style>
 </head>
 <body>
-    <div class="dashboard-container" style="max-width:800px; margin: 2rem auto;">
+    <div class="dashboard-container">
         <h2 id="form-title">Add New Project</h2>
         <form id="project-form">
             <div class="form-group"><label>Title</label><input type="text" id="title" required></div>
-            <div class="form-group"><label>Category</label><input type="text" id="category" required></div>
+            <div class="form-group"><label>Category</label><input type="text" id="category" placeholder="e.g., Web Development" required></div>
             <div class="form-group"><label>Description</label><textarea id="description" rows="5" required></textarea></div>
             <div class="form-group"><label>Project Image</label><input type="file" id="image-upload"></div>
-            <img id="current-image" src="" width="200" style="display:none; margin-bottom:1rem;">
-            <p id="upload-progress" style="display:none;"></p>
+            <img id="current-image" src="" width="200" style="display:none; margin-bottom:1rem; border-radius: 8px;">
+            <p id="upload-status" style="font-weight: 600;"></p>
             <button type="submit" class="cta-button">Save Project</button>
-            <a href="manage-portfolio.html" style="margin-left:1rem;">Cancel</a>
+            <a href="manage-portfolio.html" style="margin-left:1rem; text-decoration: none; color: #6b7280;">Cancel</a>
         </form>
     </div>
 
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    
+    <!-- Central Admin Firebase Config & Security Guard -->
+    <script src="js/admin-firebase.js"></script>
+
+    <!-- Page-specific script -->
     <script>
-        // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDzzNaBj_TjvQMkqLW7_DC0L7M6uULgjs8",
-  authDomain: "lumetra-protfolio.firebaseapp.com",
-  databaseURL: "https://lumetra-protfolio-default-rtdb.firebaseio.com",
-  projectId: "lumetra-protfolio",
-  storageBucket: "lumetra-protfolio.firebasestorage.app",
-  messagingSenderId: "633062556570",
-  appId: "1:633062556570:web:d9cdc60726444ba7fd3023"
-};
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const storage = firebase.storage();
+        // --- IMPORTANT: PASTE YOUR IMGBB API KEY HERE ---
+        const imgbbApiKey = "YOUR_IMGBB_API_KEY";
+
+        // Global variables for this page
         let currentProjectId = null;
         let currentImageUrl = null;
 
@@ -45,18 +44,22 @@ const firebaseConfig = {
             const params = new URLSearchParams(window.location.search);
             currentProjectId = params.get('id');
 
+            // If an ID exists in the URL, we are editing a project
             if (currentProjectId) {
                 document.getElementById('form-title').textContent = "Edit Project";
+                // The `db` variable comes from admin-firebase.js
                 db.collection("portfolio").doc(currentProjectId).get().then(doc => {
                     if (doc.exists) {
                         const project = doc.data();
                         document.getElementById('title').value = project.title;
                         document.getElementById('category').value = project.category;
                         document.getElementById('description').value = project.description;
-                        currentImageUrl = project.image;
-                        const imagePreview = document.getElementById('current-image');
-                        imagePreview.src = currentImageUrl;
-                        imagePreview.style.display = 'block';
+                        if (project.image) {
+                            currentImageUrl = project.image;
+                            const imagePreview = document.getElementById('current-image');
+                            imagePreview.src = currentImageUrl;
+                            imagePreview.style.display = 'block';
+                        }
                     }
                 });
             }
@@ -64,33 +67,55 @@ const firebaseConfig = {
 
         document.getElementById('project-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const title = document.getElementById('title').value;
-            const category = document.getElementById('category').value;
-            const description = document.getElementById('description').value;
+            
             const imageFile = document.getElementById('image-upload').files[0];
-            const progressP = document.getElementById('upload-progress');
+            const statusP = document.getElementById('upload-status');
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
 
             if (imageFile) {
-                const storageRef = storage.ref(`portfolio/${Date.now()}_${imageFile.name}`);
-                const task = storageRef.put(imageFile);
-                task.on('state_changed',
-                    (snapshot) => {
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        progressP.textContent = `Upload is ${progress.toFixed(2)}% done`;
-                        progressP.style.display = 'block';
-                    },
-                    (error) => { console.error(error); },
-                    async () => {
-                        currentImageUrl = await task.snapshot.ref.getDownloadURL();
-                        saveProjectToFirestore({ title, category, description, image: currentImageUrl });
-                    }
-                );
+                statusP.textContent = 'Uploading image...';
+                
+                const formData = new FormData();
+                formData.append('image', imageFile);
+
+                fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        statusP.textContent = 'Image uploaded! Saving project...';
+                        currentImageUrl = result.data.url;
+                        saveProjectToFirestore();
+                    } else { throw new Error(result.error.message); }
+                })
+                .catch(error => {
+                    statusP.textContent = `Image upload failed: ${error.message}`;
+                    submitButton.disabled = false;
+                });
             } else {
-                saveProjectToFirestore({ title, category, description, image: currentImageUrl });
+                statusP.textContent = 'Saving project...';
+                saveProjectToFirestore();
             }
         });
 
-        function saveProjectToFirestore(projectData) {
+        function saveProjectToFirestore() {
+            const projectData = {
+                title: document.getElementById('title').value,
+                category: document.getElementById('category').value,
+                description: document.getElementById('description').value,
+                image: currentImageUrl
+            };
+
+            if (!projectData.image) {
+                alert("Please select an image for the project.");
+                document.querySelector('button[type="submit"]').disabled = false;
+                return;
+            }
+
+            // The `db` variable comes from admin-firebase.js
             const operation = currentProjectId 
                 ? db.collection("portfolio").doc(currentProjectId).update(projectData)
                 : db.collection("portfolio").add(projectData);
@@ -98,7 +123,11 @@ const firebaseConfig = {
             operation.then(() => {
                 alert('Project saved successfully!');
                 window.location.href = 'manage-portfolio.html';
-            }).catch(error => console.error("Error saving project: ", error));
+            }).catch(error => {
+                console.error("Error saving project data: ", error);
+                document.getElementById('upload-status').textContent = 'Error saving project data.';
+                document.querySelector('button[type="submit"]').disabled = false;
+            });
         }
     </script>
 </body>
