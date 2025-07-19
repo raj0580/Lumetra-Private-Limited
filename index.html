@@ -17,6 +17,7 @@
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
+                <li><a href="portfolio.html">Our Work</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
@@ -49,22 +50,23 @@
         <!-- Portfolio Section -->
         <section class="portfolio">
             <div class="container">
-                <h2>Our Work</h2>
+                <h2>Our Recent Work</h2>
                 <div class="portfolio-gallery">
-                    <img src="img/portfolio-1.jpg" alt="Portfolio Project 1">
-                    <img src="img/portfolio-2.jpg" alt="Portfolio Project 2">
-                    <img src="img/portfolio-3.jpg" alt="Portfolio Project 3">
-                    <img src="img/portfolio-4.jpg" alt="Portfolio Project 4">
+                    <!-- JavaScript will load projects here -->
+                </div>
+                <div class="portfolio-view-all">
+                    <a href="portfolio.html" class="cta-button">View All Projects</a>
                 </div>
             </div>
         </section>
 
-        <!-- Testimonials Section - RESTORED -->
+        <!-- Testimonials Section -->
         <section class="testimonials">
             <div class="container">
                 <h2>What Our Clients Say</h2>
-                <!-- This div is essential for the testimonials to appear -->
-                <div class="testimonial-slider"></div>
+                <div class="testimonial-slider">
+                    <!-- JavaScript will load testimonials here -->
+                </div>
             </div>
         </section>
     </main>
@@ -81,6 +83,11 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK (needed for dynamic content) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Main JavaScript file that will render the content -->
     <script src="js/main.js"></script>
 </body>
 </html>
