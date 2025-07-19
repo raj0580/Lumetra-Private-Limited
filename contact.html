@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Lumetra</title>
+    <link rel="stylesheet" href="public/css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="index.html" class="logo">
+                    <img src="public/icons/logo.png" alt="Lumetra Logo">
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Contact Section -->
+        <section class="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <p>Have a project in mind? We'd love to hear from you.</p>
+                <form id="contact-form">
+                    <input type="text" id="name" placeholder="Your Name" required>
+                    <input type="email" id="email" placeholder="Your Email" required>
+                    <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="cta-button">Send Message</button>
+                </form>
+                <p id="form-status"></p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2025 Lumetra. All Rights Reserved.</p>
+            <div class="social-icons">
+                <a href="#"><img src="public/icons/facebook.svg" alt="Facebook"></a>
+                <a href="#"><img src="public/icons/twitter.svg" alt="Twitter"></a>
+                <a href="#"><img src="public/icons/linkedin.svg" alt="LinkedIn"></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script src="public/js/main.js"></script>
+</body>
+</html>
