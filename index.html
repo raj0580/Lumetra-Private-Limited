@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumetra - Digital Agency</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
-</head>
-<body>
 
-    <!-- FULL NAVBAR HTML -->
+        <!-- ==================================================================== -->
+    <!--          UPDATED NAVBAR WITH HAMBURGER MENU (FOR ALL PAGES)          -->
+    <!-- ==================================================================== -->
     <header class="navbar">
-        <div class="container">
+        <div class="container navbar-container">
             <a href="index.html" class="logo">
                 <img src="icons/logo.png" alt="Lumetra Logo">
             </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="portfolio.html">Our Work</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="nav-desktop">
+                <a href="index.html">Home</a>
+                <a href="portfolio.html">Our Work</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <!-- Hamburger Icon for Mobile -->
+            <div class="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
         </div>
+
+        <!-- Mobile Navigation Menu (Hidden by default) -->
+        <nav class="nav-mobile">
+            <a href="index.html">Home</a>
+            <a href="portfolio.html">Our Work</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
     </header>
 
     <main>
