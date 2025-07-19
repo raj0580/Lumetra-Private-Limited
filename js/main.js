@@ -3,16 +3,45 @@
    ========================================================================== */
 
 // --------------------------------------------------------------------------
+// 0. Reusable Components (Navbar and Footer)
+// This loads the header and footer into the correct places on each page.
+// --------------------------------------------------------------------------
+const headerHTML = `
+    <div class="container">
+        <a href="index.html" class="logo">
+            <img src="icons/logo.png" alt="Lumetra Logo">
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+`;
+document.querySelector('header.navbar').innerHTML = headerHTML;
+
+const footerHTML = `
+    <div class="container">
+        <p>© 2025 Lumetra. All Rights Reserved.</p>
+        <div class="social-icons">
+            <a href="#"><img src="icons/facebook.svg" alt="Facebook"></a>
+            <a href="#"><img src="icons/twitter.svg" alt="Twitter"></a>
+            <a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a>
+        </div>
+    </div>
+`;
+document.querySelector('footer').innerHTML = footerHTML;
+
+
+// --------------------------------------------------------------------------
 // 1. Navbar Scroll Effect
 // --------------------------------------------------------------------------
 document.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
-    // Ensure the navbar element exists before trying to modify it
     if (navbar) {
         if (window.scrollY > 50) {
             navbar.style.backgroundColor = 'var(--white)';
         } else {
-            // This returns the background to semi-transparent when you scroll to the top
             navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
         }
     }
@@ -23,30 +52,15 @@ document.addEventListener('scroll', () => {
 // 2. Testimonial Slider
 // --------------------------------------------------------------------------
 const testimonials = [
-    {
-        name: "Jane Doe, CEO of InnoTech",
-        photo: "img/client-1.jpg", // Corrected path
-        text: "Lumetra's team is incredibly talented. They delivered a stunning website that exceeded our expectations."
-    },
-    {
-        name: "John Smith, Founder of MarketBoost",
-        photo: "img/client-2.jpg", // Corrected path
-        text: "Working with Lumetra was a game-changer for our brand. Their marketing strategies are top-notch."
-    },
-    {
-        name: "Emily White, Creative Head at Artisian",
-        photo: "img/client-3.jpg", // Corrected path
-        text: "The design work from Lumetra is simply outstanding. They have a keen eye for detail and aesthetics."
-    }
+    { name: "Jane Doe, CEO of InnoTech", photo: "img/client-1.jpg", text: "Lumetra's team is incredibly talented. They delivered a stunning website that exceeded our expectations." },
+    { name: "John Smith, Founder of MarketBoost", photo: "img/client-2.jpg", text: "Working with Lumetra was a game-changer for our brand. Their marketing strategies are top-notch." },
+    { name: "Emily White, Creative Head at Artisian", photo: "img/client-3.jpg", text: "The design work from Lumetra is simply outstanding. They have a keen eye for detail and aesthetics." }
 ];
 
-// Check if we are on a page that has the testimonial slider
 const testimonialSlider = document.querySelector('.testimonial-slider');
 if (testimonialSlider) {
     let currentSlide = 0;
-
     function showSlide(index) {
-        // Ensure testimonials array is not empty and index is valid
         if (testimonials.length > 0 && testimonials[index]) {
             testimonialSlider.innerHTML = `
                 <div class="testimonial-slide active">
@@ -57,15 +71,11 @@ if (testimonialSlider) {
             `;
         }
     }
-
     function nextSlide() {
         currentSlide = (currentSlide + 1) % testimonials.length;
         showSlide(currentSlide);
     }
-
-    // Initial call to show the first slide
     showSlide(currentSlide);
-    // Change slide every 5 seconds
     setInterval(nextSlide, 5000);
 }
 
@@ -73,8 +83,6 @@ if (testimonialSlider) {
 // --------------------------------------------------------------------------
 // 3. Firebase Contact Form
 // --------------------------------------------------------------------------
-
-// IMPORTANT: Replace with your actual Firebase project configuration
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_AUTH_DOMAIN",
@@ -84,32 +92,29 @@ const firebaseConfig = {
     appId: "YOUR_APP_ID"
 };
 
-// Initialize Firebase only if the firebase library is loaded
 if (typeof firebase !== 'undefined') {
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Check if we are on a page with the contact form
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            // Get form elements
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value; // Get phone number
             const message = document.getElementById('message').value;
             const formStatus = document.getElementById('form-status');
             const submitButton = contactForm.querySelector('button[type="submit"]');
 
-            // Disable button to prevent multiple submissions
             submitButton.disabled = true;
             submitButton.textContent = 'Sending...';
 
-            // Save to Firestore
             db.collection('contacts').add({
                 name: name,
                 email: email,
+                phone: phone, // Save phone number to Firestore
                 message: message,
                 timestamp: new Date()
             })
@@ -124,10 +129,9 @@ if (typeof firebase !== 'undefined') {
                 console.error("Error adding document: ", error);
             })
             .finally(() => {
-                // Re-enable the button
                 submitButton.disabled = false;
                 submitButton.textContent = 'Send Message';
             });
         });
     }
-}
+}```
