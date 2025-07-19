@@ -1,42 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumetra - Digital Agency</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+</head>
+<body>
 
-        <!-- ==================================================================== -->
-    <!--          UPDATED NAVBAR WITH HAMBURGER MENU (FOR ALL PAGES)          -->
-    <!-- ==================================================================== -->
     <header class="navbar">
         <div class="container navbar-container">
-            <a href="index.html" class="logo">
-                <img src="icons/logo.png" alt="Lumetra Logo">
-            </a>
-
-            <!-- Desktop Navigation Links -->
+            <a href="index.html" class="logo"><img src="icons/logo.png" alt="Lumetra Logo"></a>
             <nav class="nav-desktop">
-                <a href="index.html">Home</a>
-                <a href="portfolio.html">Our Work</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
+                <a href="index.html">Home</a><a href="portfolio.html">Our Work</a><a href="about.html">About</a><a href="contact.html">Contact</a>
             </nav>
-
-            <!-- Hamburger Icon for Mobile -->
-            <div class="hamburger-menu">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
+            <div class="hamburger-menu"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
         </div>
-
-        <!-- Mobile Navigation Menu (Hidden by default) -->
         <nav class="nav-mobile">
-            <a href="index.html">Home</a>
-            <a href="portfolio.html">Our Work</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+            <a href="index.html">Home</a><a href="portfolio.html">Our Work</a><a href="about.html">About</a><a href="contact.html">Contact</a>
         </nav>
     </header>
 
     <main>
-        <!-- Hero Section -->
         <section class="hero" style="background-image: url('img/hero-banner.jpg');">
             <div class="container">
                 <h1>Creative Solutions for the Digital Age</h1>
@@ -45,44 +31,34 @@
             </div>
         </section>
 
-        <!-- Services Section -->
         <section class="services">
             <div class="container">
                 <h2>Our Services</h2>
                 <div class="service-cards">
-                    <div class="card"><img src="icons/graphic-design.svg" alt="Graphic Design Icon" class="card-icon"><h3>Graphic Design</h3><p>Stunning visuals that tell your brand's story.</p></div>
-                    <div class="card"><img src="icons/web-development.svg" alt="Web Development Icon" class="card-icon"><h3>Web Development</h3><p>Fast, responsive, and user-friendly websites.</p></div>
-                    <div class="card"><img src="icons/marketing.svg" alt="Marketing Icon" class="card-icon"><h3>Digital Marketing</h3><p>Strategies that drive growth and engagement.</p></div>
-                    <div class="card"><img src="icons/social-media.svg" alt="Social Media Icon" class="card-icon"><h3>Social Media</h3><p>Building and nurturing your online community.</p></div>
+                    <div class="card"><img src="icons/graphic-design.svg" alt="Graphic Design" class="card-icon"><h3>Graphic Design</h3><p>Stunning visuals that tell your brand's story.</p></div>
+                    <div class="card"><img src="icons/web-development.svg" alt="Web Development" class="card-icon"><h3>Web Development</h3><p>Fast, responsive, and user-friendly websites.</p></div>
+                    <div class="card"><img src="icons/marketing.svg" alt="Marketing" class="card-icon"><h3>Digital Marketing</h3><p>Strategies that drive growth and engagement.</p></div>
+                    <div class="card"><img src="icons/social-media.svg" alt="Social Media" class="card-icon"><h3>Social Media</h3><p>Building and nurturing your online community.</p></div>
                 </div>
             </div>
         </section>
 
-        <!-- Portfolio Section -->
         <section class="portfolio">
             <div class="container">
                 <h2>Our Recent Work</h2>
-                <div class="portfolio-gallery">
-                    <!-- JavaScript will load projects here -->
-                </div>
-                <div class="portfolio-view-all">
-                    <a href="portfolio.html" class="cta-button">View All Projects</a>
-                </div>
+                <div class="portfolio-gallery"></div>
+                <div class="portfolio-view-all"><a href="portfolio.html" class="cta-button">View All Projects</a></div>
             </div>
         </section>
 
-        <!-- Testimonials Section -->
         <section class="testimonials">
             <div class="container">
                 <h2>What Our Clients Say</h2>
-                <div class="testimonial-slider">
-                    <!-- JavaScript will load testimonials here -->
-                </div>
+                <div class="testimonial-slider"></div>
             </div>
         </section>
     </main>
 
-    <!-- FULL FOOTER HTML -->
     <footer>
         <div class="container">
             <p>© 2025 Lumetra. All Rights Reserved.</p>
@@ -94,11 +70,8 @@
         </div>
     </footer>
 
-    <!-- Firebase SDK (needed for dynamic content) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    
-    <!-- Main JavaScript file that will render the content -->
     <script src="js/main.js"></script>
 </body>
 </html>
