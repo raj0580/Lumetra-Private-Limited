@@ -8,35 +8,32 @@
     <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
 </head>
 <body>
-    <!-- Navbar -->
+
     <header class="navbar">
-        <div class="container">
+        <div class="container navbar-container">
             <a href="index.html" class="logo"><img src="icons/logo.png" alt="Lumetra Logo"></a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="portfolio.html">Our Work</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+            <nav class="nav-desktop">
+                <a href="index.html">Home</a><a href="portfolio.html">Our Work</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+            </nav>
+            <div class="hamburger-menu"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
         </div>
+        <nav class="nav-mobile">
+            <a href="index.html">Home</a><a href="portfolio.html">Our Work</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+        </nav>
     </header>
 
     <main>
-        <section class="portfolio-page" style="background-color: var(--light-gray);">
+        <section class="portfolio-page">
             <div class="container">
-                <div class="portfolio-header" style="text-align: center; margin-bottom: 3rem;">
+                <div class="portfolio-header">
                     <h2>Our Portfolio</h2>
-                    <p style="font-size: 1.1rem; color: #6b7280;">A showcase of our passion, creativity, and commitment to results.</p>
+                    <p>A showcase of our passion, creativity, and commitment to results.</p>
                 </div>
-                <!-- This is the container where your JavaScript will load all projects -->
-                <div class="portfolio-gallery">
-                    <!-- Projects will be loaded here by main.js -->
-                </div>
+                <div class="portfolio-gallery"></div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <p>© 2025 Lumetra. All Rights Reserved.</p>
@@ -48,11 +45,8 @@
         </div>
     </footer>
 
-    <!-- Firebase SDKs are needed to fetch the portfolio data -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    
-    <!-- Main JS file -->
     <script src="js/main.js"></script>
 </body>
 </html>
