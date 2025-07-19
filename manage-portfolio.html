@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Manage Portfolio - Lumetra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>/* Same styles as view-messages.html */</style>
+</head>
+<body>
+    <div class="dashboard-container" style="max-width:1200px; margin: 2rem auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2>Manage Portfolio</h2>
+            <div>
+                <a href="add-edit-project.html" class="cta-button">Add New Project</a>
+                <a href="admin-dashboard.html" class="cta-button" style="background-color:#6b7280;">Back to Dashboard</a>
+            </div>
+        </div>
+        <br>
+        <table id="portfolio-table">
+            <thead><tr><th>Image</th><th>Title</th><th>Category</th><th>Actions</th></tr></thead>
+            <tbody><tr><td colspan="4">Loading projects...</td></tr></tbody>
+        </table>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDzzNaBj_TjvQMkqLW7_DC0L7M6uULgjs8",
+  authDomain: "lumetra-protfolio.firebaseapp.com",
+  databaseURL: "https://lumetra-protfolio-default-rtdb.firebaseio.com",
+  projectId: "lumetra-protfolio",
+  storageBucket: "lumetra-protfolio.firebasestorage.app",
+  messagingSenderId: "633062556570",
+  appId: "1:633062556570:web:d9cdc60726444ba7fd3023"
+};
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                const tableBody = document.querySelector("#portfolio-table tbody");
+                db.collection("portfolio").orderBy("title").onSnapshot(snapshot => {
+                    tableBody.innerHTML = '';
+                    if (snapshot.empty) {
+                        tableBody.innerHTML = '<tr><td colspan="4">No projects found. Click "Add New Project" to start.</td></tr>';
+                        return;
+                    }
+                    snapshot.forEach(doc => {
+                        const project = doc.data();
+                        tableBody.innerHTML += `<tr><td><img src="${project.image}" width="100"></td><td>${project.title}</td><td>${project.category}</td><td><a href="add-edit-project.html?id=${doc.id}">Edit</a> | <a href="#" onclick="deleteProject('${doc.id}')">Delete</a></td></tr>`;
+                    });
+                });
+            } else { window.location.href = 'admin.html'; }
+        });
+
+        function deleteProject(id) {
+            if (confirm("Are you sure you want to delete this project? This cannot be undone.")) {
+                db.collection("portfolio").doc(id).delete();
+            }
+        }
+    </script>
+</body>
+</html>
