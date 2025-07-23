@@ -1,5 +1,6 @@
 /* ==========================================================================
-   FINAL & COMPLETE STYLESHEET FOR LUMETRA AGENCY
+   FINAL, COMPLETE, & STABLE STYLESHEET FOR LUMETRA AGENCY
+   (Includes fixes for ALL oversized icons)
    ========================================================================== */
 
 /* --- 1. Root, Body, and Basic Styles --- */
@@ -48,10 +49,22 @@ a { text-decoration: none; color: var(--primary-color); }
 .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, rgba(29, 78, 216, 0.5), rgba(124, 58, 237, 0.4)); }
 .hero .container { position: relative; }
 .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; color: var(--white); }
-.services, .portfolio, .testimonials { text-align: center; }
+.services { text-align: center; }
 .services h2, .portfolio h2, .testimonials h2 { font-size: 2.5rem; margin-bottom: 3rem; }
+.service-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+.card { background-color: var(--white); padding: 2.5rem 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+/* THIS IS THE FIX for the oversized service icons */
+.card-icon {
+    height: 50px;
+    width: 50px; /* Explicitly set width */
+    object-fit: contain; /* Ensure icon scales properly within the box */
+    margin-bottom: 1.5rem;
+}
+.card h3 { margin-bottom: 0.5rem; font-size: 1.25rem; }
 
-/* --- 4. Portfolio Card Styles --- */
+/* --- 4. Portfolio Section --- */
+.portfolio { text-align: center; }
 .portfolio-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; text-align: left; }
 .portfolio-card { background: var(--white); border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.07); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; display: block; color: var(--text-color); }
 .portfolio-card:hover { transform: translateY(-10px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
@@ -67,7 +80,6 @@ a { text-decoration: none; color: var(--primary-color); }
 .about-text h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
 .about-text p { line-height: 1.7; margin-bottom: 1rem; }
 .about-image img { width: 100%; border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-
 .team { text-align: center; background-color: var(--light-gray); }
 .team h2 { font-size: 2.5rem; margin-bottom: 3rem; }
 .team-members { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
@@ -76,16 +88,28 @@ a { text-decoration: none; color: var(--primary-color); }
 .team-member img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 1.5rem; border: 4px solid var(--white); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
 .team-member h3 { font-size: 1.5rem; margin-bottom: 0.25rem; }
 .team-member .role { color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; }
-.team-member .social-links { display: flex; justify-content: center; gap: 1rem; }
-/* THIS IS THE CRITICAL FIX FOR THE GIANT ICONS */
+.team-member .social-links { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+/* THIS IS THE FIX for the oversized team social icons */
 .team-member .social-links img {
     height: 24px;
-    width: 24px; /* Explicitly set width to constrain the SVG */
+    width: 24px;
     transition: transform 0.3s;
 }
 .team-member .social-links a:hover img { transform: scale(1.2); }
 
-/* --- 6. Responsive Design --- */
+/* --- 6. Footer --- */
+footer { background-color: var(--secondary-color); color: var(--white); padding: 3rem 0; text-align: center; }
+footer .container { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.social-icons { display: flex; gap: 1.5rem; }
+/* THIS IS THE FIX for the oversized footer social icons */
+.social-icons img {
+    height: 24px;
+    width: 24px;
+    transition: transform 0.3s;
+}
+.social-icons a:hover img { transform: scale(1.2); }
+
+/* --- 7. Responsive Design --- */
 @media (max-width: 992px) {
     .about-section-container { grid-template-columns: 1fr; }
     .about-image { order: -1; margin-bottom: 2rem; }
@@ -97,11 +121,7 @@ a { text-decoration: none; color: var(--primary-color); }
     .hamburger-menu { display: flex; }
     .logo img { height: 34px; }
     section { padding: 3rem 0; }
-    .hero { padding-top: 6rem; padding-bottom: 6rem; }
     .hero h1 { font-size: 2.5rem; }
     .hero p { font-size: 1rem; }
     h2, .services h2, .portfolio h2, .testimonials h2, .team h2 { font-size: 2rem; }
 }
-
-/* Add any other remaining styles for contact page, etc., if needed */
-/* They are likely correct but this ensures the team section is fixed. */
