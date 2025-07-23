@@ -3,37 +3,66 @@
 <head>
     <title>Add/Edit Project - Lumetra</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>/* Admin form styles */</style>
+    <style> /* Admin form styles */ </style>
 </head>
 <body>
     <div class="dashboard-container" style="max-width:800px; margin: 2rem auto;">
         <h2 id="form-title">Add New Project</h2>
         <form id="project-form">
-            <!-- Form fields: title, category, description, image-upload -->
             <div class="form-group"><label>Title</label><input type="text" id="title" required></div>
             <div class="form-group"><label>Category</label><input type="text" id="category" required></div>
-            <div class="form-group"><label>Description</label><textarea id="description" rows="5" required></textarea></div>
-            <div class="form-group"><label>Project Image</label><input type="file" id="image-upload"></div>
-            <img id="current-image" src="" width="200" style="display:none; margin-bottom:1rem; border-radius: 8px;">
+            <div class="form-group"><label>Full Description</label><textarea id="description" rows="6" required></textarea></div>
+            
+            <hr style="margin: 2rem 0;">
+            
+            <div class="form-group"><label>Main Thumbnail Image (for portfolio grid)</label><input type="file" id="main-image-upload"></div>
+            <img id="current-main-image" src="" width="200" style="display:none; margin-bottom:1rem; border-radius: 8px;">
+
+            <div class="form-group">
+                <label>Extra Gallery Images (optional, multiple allowed)</label>
+                <input type="file" id="gallery-images-upload" multiple>
+            </div>
+            <div id="current-gallery-images" style="display:flex; gap:1rem; flex-wrap:wrap;"></div>
+            
+            <hr style="margin: 2rem 0;">
+
+            <div class="form-group">
+                <label>Link a Client Testimonial (optional)</label>
+                <select id="testimonial-select"><option value="">-- No Testimonial --</option></select>
+            </div>
+
             <p id="upload-status" style="font-weight: 600;"></p>
             <button type="submit" class="cta-button">Save Project</button>
             <a href="manage-portfolio.html" style="margin-left:1rem;">Cancel</a>
         </form>
     </div>
 
-    <!-- SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    
-    <!-- Central Config (provides db, auth, and imgbbApiKey) -->
     <script src="js/admin-firebase.js"></script>
-
-    <!-- Page-specific script -->
     <script>
         let currentProjectId = null;
-        let currentImageUrl = null;
+        let mainImageUrl = null;
+        let galleryImageUrls = [];
 
+        // 1. Function to populate the testimonial dropdown
+        function populateTestimonials(selectedId) {
+            const selectEl = document.getElementById('testimonial-select');
+            db.collection("testimonials").orderBy("name").get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.textContent = `${doc.data().name} (${doc.data().role})`;
+                    selectEl.appendChild(option);
+                });
+                if (selectedId) {
+                    selectEl.value = selectedId;
+                }
+            });
+        }
+
+        // 2. Main function on page load
         document.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search);
             currentProjectId = params.get('id');
@@ -44,62 +73,84 @@
                     document.getElementById('title').value = project.title;
                     document.getElementById('category').value = project.category;
                     document.getElementById('description').value = project.description;
-                    if (project.image) {
-                        currentImageUrl = project.image;
-                        document.getElementById('current-image').src = currentImageUrl;
-                        document.getElementById('current-image').style.display = 'block';
+                    mainImageUrl = project.mainImage;
+                    galleryImageUrls = project.imageGallery || [];
+                    
+                    if (mainImageUrl) {
+                        document.getElementById('current-main-image').src = mainImageUrl;
+                        document.getElementById('current-main-image').style.display = 'block';
                     }
+                    // Display existing gallery images
+                    const galleryDiv = document.getElementById('current-gallery-images');
+                    galleryImageUrls.forEach(url => galleryDiv.innerHTML += `<img src="${url}" width="100" style="border-radius:8px;">`);
+                    
+                    populateTestimonials(project.testimonialId);
                 });
+            } else {
+                populateTestimonials();
             }
         });
 
+        // 3. Image Upload Helper Function
+        async function uploadImage(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            const response = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, { method: 'POST', body: formData });
+            const result = await response.json();
+            if (result.success) return result.data.url;
+            throw new Error(result.error.message);
+        }
+
+        // 4. Form Submission Logic
         document.getElementById('project-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const imageFile = document.getElementById('image-upload').files[0];
             const statusP = document.getElementById('upload-status');
             const submitButton = e.target.querySelector('button[type="submit"]');
             submitButton.disabled = true;
+            statusP.textContent = 'Processing...';
 
-            // The imgbbApiKey variable now comes globally from admin-firebase.js
-            if (imgbbApiKey === "YOUR_IMGBB_API_KEY") {
-                statusP.textContent = "Error: ImgBB API Key is not set in admin-firebase.js";
+            try {
+                const mainImageFile = document.getElementById('main-image-upload').files[0];
+                const galleryImageFiles = document.getElementById('gallery-images-upload').files;
+
+                if (mainImageFile) {
+                    statusP.textContent = 'Uploading main image...';
+                    mainImageUrl = await uploadImage(mainImageFile);
+                }
+
+                if (galleryImageFiles.length > 0) {
+                    statusP.textContent = 'Uploading gallery images...';
+                    const uploadPromises = Array.from(galleryImageFiles).map(uploadImage);
+                    const newUrls = await Promise.all(uploadPromises);
+                    galleryImageUrls = [...galleryImageUrls, ...newUrls];
+                }
+
+                statusP.textContent = 'Saving data to database...';
+                const projectData = {
+                    title: document.getElementById('title').value,
+                    category: document.getElementById('category').value,
+                    description: document.getElementById('description').value,
+                    mainImage: mainImageUrl,
+                    imageGallery: galleryImageUrls,
+                    testimonialId: document.getElementById('testimonial-select').value
+                };
+
+                if (!projectData.mainImage) {
+                    alert("A main thumbnail image is required.");
+                    submitButton.disabled = false;
+                    return;
+                }
+
+                const operation = currentProjectId ? db.collection("portfolio").doc(currentProjectId).set(projectData) : db.collection("portfolio").add(projectData);
+                await operation;
+                alert('Project saved successfully!');
+                window.location.href = 'manage-portfolio.html';
+
+            } catch (error) {
+                statusP.textContent = `An error occurred: ${error.message}`;
                 submitButton.disabled = false;
-                return;
-            }
-
-            if (imageFile) {
-                statusP.textContent = 'Uploading image...';
-                const formData = new FormData();
-                formData.append('image', imageFile);
-                fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, { method: 'POST', body: formData })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.success) {
-                        currentImageUrl = result.data.url;
-                        saveProjectToFirestore();
-                    } else { throw new Error(result.error.message); }
-                })
-                .catch(error => { statusP.textContent = `Upload failed: ${error.message}`; submitButton.disabled = false; });
-            } else {
-                saveProjectToFirestore();
             }
         });
-
-        function saveProjectToFirestore() {
-            const projectData = {
-                title: document.getElementById('title').value,
-                category: document.getElementById('category').value,
-                description: document.getElementById('description').value,
-                image: currentImageUrl
-            };
-            if (!projectData.image) {
-                alert("Please select an image.");
-                document.querySelector('button[type="submit"]').disabled = false;
-                return;
-            }
-            const operation = currentProjectId ? db.collection("portfolio").doc(currentProjectId).update(projectData) : db.collection("portfolio").add(projectData);
-            operation.then(() => { alert('Saved!'); window.location.href = 'manage-portfolio.html'; });
-        }
     </script>
 </body>
 </html>
