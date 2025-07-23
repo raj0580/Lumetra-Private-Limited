@@ -344,6 +344,23 @@ a {
     object-fit: cover;
 }
 
+/* --- 5. PROJECT DETAIL PAGE --- */
+.project-detail-header { text-align: center; padding: 4rem 0; background-color: var(--light-gray); }
+.project-detail-header h1 { font-size: 3rem; margin: 0; }
+.project-detail-header .category { /* ... */ }
+.project-detail-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    margin-top: 4rem;
+    /* THIS IS THE FIX: This ensures both columns start at the top */
+    align-items: start; 
+}
+.project-description p { line-height: 1.8; font-size: 1.1rem; }
+.project-gallery img { /* ... */ }
+.project-testimonial-box { /* ... */ }
+
+
 /* --- 5. About Page & Team Section --- */
 .about-us-page {
     background-color: var(--white);
