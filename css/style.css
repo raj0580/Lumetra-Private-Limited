@@ -283,10 +283,12 @@ a {
     grid-template-columns: 2fr 1fr;
     gap: 3rem;
     margin-top: 4rem;
+    align-items: start; /* This is the fix for the layout */
 }
 .project-description p {
     line-height: 1.8;
     font-size: 1.1rem;
+    white-space: pre-wrap; /* This preserves line breaks from the textarea */
 }
 .project-gallery img {
     width: 100%;
@@ -344,26 +346,12 @@ a {
     object-fit: cover;
 }
 
-/* --- 5. PROJECT DETAIL PAGE --- */
-.project-detail-header { text-align: center; padding: 4rem 0; background-color: var(--light-gray); }
-.project-detail-header h1 { font-size: 3rem; margin: 0; }
-.project-detail-header .category { /* ... */ }
-.project-detail-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 3rem;
-    margin-top: 4rem;
-    /* THIS IS THE FIX: This ensures both columns start at the top */
-    align-items: start; 
-}
-.project-description p { line-height: 1.8; font-size: 1.1rem; }
-.project-gallery img { /* ... */ }
-.project-testimonial-box { /* ... */ }
-
-
-/* --- 5. About Page & Team Section --- */
-.about-us-page {
+/* --- 5. About & Contact Pages --- */
+.about-us-page, .contact-page, .portfolio-page {
     background-color: var(--white);
+}
+.portfolio-page {
+    background-color: var(--light-gray);
 }
 .about-section-container {
     display: grid;
@@ -440,16 +428,11 @@ a {
 .team-member .social-links a:hover img {
     transform: scale(1.2);
 }
-
-/* --- 6. Contact Page --- */
-.contact-page {
-    background-color: var(--white);
-}
-.contact-header, .portfolio-header {
+.contact-header {
     text-align: center;
     margin-bottom: 4rem;
 }
-.contact-header h2, .portfolio-header h2 {
+.contact-header h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
 }
@@ -512,7 +495,7 @@ a {
     font-weight: 600;
 }
 
-/* --- 7. Footer --- */
+/* --- 6. Footer --- */
 footer {
     background-color: var(--secondary-color);
     color: var(--white);
@@ -538,7 +521,7 @@ footer .container {
     transform: scale(1.2);
 }
 
-/* --- 8. Responsive Design --- */
+/* --- 7. Responsive Design --- */
 @media (max-width: 992px) {
     .about-section-container, .contact-container, .project-detail-content {
         grid-template-columns: 1fr;
@@ -555,32 +538,4 @@ footer .container {
     .navbar {
         height: 70px;
     }
-    .nav-desktop {
-        display: none;
-    }
-    .hamburger-menu {
-        display: flex;
-    }
-    .logo img {
-        height: 34px;
-    }
-    section {
-        padding: 3rem 0;
-    }
-    .hero {
-        padding-top: 6rem;
-        padding-bottom: 6rem;
-    }
-    .hero h1, .project-detail-header h1 {
-        font-size: 2.5rem;
-    }
-    .hero p {
-        font-size: 1rem;
-    }
-    h2, .services h2, .portfolio h2, .testimonials h2, .team h2, .contact-header h2, .portfolio-header h2 {
-        font-size: 2rem;
-    }
-    .contact-container {
-        padding: 2rem;
-    }
-}
+    .nav-
